@@ -1,0 +1,19 @@
+:-webkit-full-screen {
+    color: red;
+}
+
+:-moz-full-screen {
+    color: red;
+}
+
+:fullscreen {
+    color: red;
+}
+
+img {
+    --some-length: 32px;
+  
+    height: var(--some-length);
+    width: var(--some-length);
+  }
+  

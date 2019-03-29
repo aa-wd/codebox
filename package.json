@@ -1,0 +1,52 @@
+{
+  "name": "@aawd/example",
+  "version": "1.0.10",
+  "author": "Ahmed Abbas",
+  "description": "Template and tools for UI component library with typescript, react, storybook and jest.",
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/aa-wd/ui-components-library-template.git"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build:css": "postcss --verbose src/css.css --output styles/css.css",
+    "build:ts": "rimraf dist && tsc",
+    "build": "npm run build:ts && npm run build:css",
+    "storybook": "start-storybook -p 6006 --ci",
+    "build-storybook": "build-storybook",
+    "test": "jest --watch",
+    "test:once": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@storybook/addon-actions": "^5.0.5",
+    "@storybook/addon-links": "^5.0.5",
+    "@storybook/addon-viewport": "^5.0.5",
+    "@storybook/addons": "^5.0.5",
+    "@storybook/react": "^5.0.5",
+    "@types/jest": "^24.0.11",
+    "@types/react": "^16.8.10",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "jest": "^24.5.0",
+    "normalize.css": "^8.0.1",
+    "postcss-cli": "^6.1.2",
+    "postcss-preset-env": "^6.6.0",
+    "rimraf": "^2.6.3",
+    "style-loader": "^0.23.1",
+    "typescript": "^3.3.4000"
+  },
+  "peerDependencies": {
+    "react": "^16.8"
+  },
+  "browserslist": "last 5 years",
+  "dependencies": {
+    "classnames": "^2.2.6"
+  }
+}
