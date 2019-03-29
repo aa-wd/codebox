@@ -1,0 +1,41 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.codebox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.codebox__input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    font-family: 'Rubik Numbers', sans-serif;
+    font-size: 2.5rem;
+    text-align: center;
+
+    border: 0.125rem solid #c7c2c2;
+    border-radius: 0.7rem;
+}
+
+input, .codebox__input:focus {
+    --outline-color: #4775f9;
+}
+
+.codebox__input:focus {
+    border-color: var(--outline-color);
+}
+
+input[type=tel]:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.125rem var(--outline-color);
+}
+
+/* 4 and 8 items: 18rem. 6 items: < 15rem */
