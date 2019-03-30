@@ -5,8 +5,8 @@
   "description": "Template and tools for UI component library with typescript, react, storybook and jest.",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/aa-wd/ui-components-library-template.git"
+    "type": "git",
+    "url": "https://github.com/aa-wd/ui-components-library-template.git"
   },
   "main": "dist/index.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
+    "file-loader": "^3.0.1",
     "jest": "^24.5.0",
     "normalize.css": "^8.0.1",
     "postcss-cli": "^6.1.2",

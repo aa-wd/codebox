@@ -1,14 +1,24 @@
-.wrapper {
+@font-face {
+    font-family: 'Rubik Numbers';
+    src:    url('../resources/rubik-numbers.woff2') format('woff2'),
+            url('../resources/rubik-numbers.ttf') format('truetype');
+}
+
+.codebox {
     display: flex;
     justify-content: center;
     margin: 1rem;
 }
 
-.codebox {
+.codebox__code {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
+}
+
+input, .codebox__input:focus {
+    --outline-color: #4775f9;
 }
 
 .codebox__input {
@@ -23,10 +33,6 @@
 
     border: 0.125rem solid #c7c2c2;
     border-radius: 0.7rem;
-}
-
-input, .codebox__input:focus {
-    --outline-color: #4775f9;
 }
 
 .codebox__input:focus {

@@ -18,8 +18,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
-        include: [srcDir, path.resolve(__dirname, '../node_modules/normalize.css')],
-      }
+        include: [
+          srcDir,
+          path.resolve(srcDir, '../node_modules/normalize.css')
+        ],
+      },
+      {
+        test: /\.(woff2?|ttf)$/,
+        loader: 'file-loader',
+        include: path.resolve(srcDir, '../resources'),
+    },
     ]
   }
 }
