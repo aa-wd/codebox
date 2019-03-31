@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import CodeBox from './CodeBox';
 import NumberInput from './NumberInput';
 
@@ -53,5 +53,10 @@ describe('<CodeBox />', () => {
     const snapshot = [...instance.state.code];
     instance.handleChange(getEventData('d', '2'));
     expect(instance.state.code).toEqual(snapshot);
+  });
+
+  test('xx', () => {
+    const codebox = mount(<CodeBox inputs={6} />);
+    console.log(window.activeElement);
   });
 });

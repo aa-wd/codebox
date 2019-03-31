@@ -44,4 +44,8 @@ input[type=tel]:focus {
     box-shadow: 0 0 0 0.125rem var(--outline-color);
 }
 
+::placeholder {
+    color: #e2e2e2;
+}
+
 /* 4 and 8 items: 18rem. 6 items: < 15rem */
