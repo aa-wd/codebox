@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import { placeholder } from '@babel/types';
 
 interface NumberInputProps {
   value: string;
+  placeholder: string;
   inputIndex: number;
   isFocused: boolean;
   clearFocus: () => void;
@@ -25,21 +27,20 @@ class NumberInput extends React.Component<NumberInputProps> {
   }
   focusInput() {
     if(this.props.isFocused) {
-      console.log('Will focus input', this.props.inputIndex)
       this.ref.current!.focus();
       this.props.clearFocus();
     }
   }
   render() {
     const {
-      value, inputIndex,
+      value, placeholder, inputIndex,
       handleChange, handleFocus, handleKeyDown
     } = this.props;
     return (
       <input
         type="tel"
         value={value}
-        placeholder="0"
+        placeholder={placeholder}
         onChange={handleChange}
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}

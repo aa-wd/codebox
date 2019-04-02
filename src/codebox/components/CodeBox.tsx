@@ -7,6 +7,7 @@ interface CodeBoxProps {
 
 interface CodeBoxState {
   code: string[];
+  placeholders: string[];
   focusStatus: boolean[];
 };
 
@@ -22,6 +23,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
   
     this.state = {
       code: Array(this.props.inputs).fill(''),
+      placeholders: Array(this.props.inputs).fill('0'),
       focusStatus: focusStatus,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -40,16 +42,28 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     if (valueAsString.length > 1) return;
 
     const inputIndexAsNumber =  parseInt(inputIndexAsString);
+    const { code, placeholders } = this.state;
 
-    const newCode = [...this.state.code];
+    const newCode = [...code];
+    const newPlaceholders = [...placeholders];
+
     newCode[inputIndexAsNumber] = valueAsString;
+    newPlaceholders[inputIndexAsNumber] = valueAsString === '' ?
+        code[inputIndexAsNumber] :
+        valueAsString;
 
-    const nextFocusStatus = this.getNextFocusStatus(inputIndexAsNumber, valueAsString === '');
+    const nextFocusStatus = this.getNextFocusStatus(inputIndexAsNumber, newCode);
+
     const isDone = nextFocusStatus.every((status) => status === false);
+
+    if (isDone && document.activeElement!== null) {
+      (document.activeElement as HTMLInputElement).blur();
+    }
 
     this.setState({
       code: newCode,
       focusStatus: nextFocusStatus,
+      placeholders: newPlaceholders,
     }, () => { if(isDone) { console.log('DONE') } });
   }
   handleFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -63,23 +77,43 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
       } else break; 
     }
 
-    if (lastEmptyInputIndex === inputIndex) return; // every input before has a valid value
-  
+    if (lastEmptyInputIndex === inputIndex && this.state.code[inputIndex] === '') return;
+
     const newFocusStatus = [...this.state.focusStatus];
-    newFocusStatus[lastEmptyInputIndex] = true;
+    // only change focused input when focusing empty input.
+    newFocusStatus[lastEmptyInputIndex] = this.state.code[inputIndex] !== '';
+
+    // remove current value, which will display the current value as placeholder
+    const tempCode = [...this.state.code];
+    tempCode[inputIndex] = '';
 
     this.setState({
       focusStatus: newFocusStatus,
+      code: tempCode,
     });
   }
-  getNextFocusStatus(previousIndex: number, isEmptyString: boolean) {
-    /**
-     * On deleting input with value, do not focus next input
-     */
-    const nextIndex = isEmptyString ? previousIndex : previousIndex + 1;
-    const newFocusState = this.state.focusStatus.map(() => false);
+  getNextFocusStatus(previousIndex: number, nextCode: string[]) {
+    const { code, focusStatus } = this.state;
 
-    if (nextIndex === this.state.code.length) return newFocusState;
+    /**
+     * On deleting input with value, or when next input has value set:
+     * do not focus next input
+     */
+    const isFollowedByInputWithValue = previousIndex + 1 !== code.length &&  code[previousIndex + 1] !== '';
+    const nextIndex = isFollowedByInputWithValue ?
+      previousIndex :
+      previousIndex + 1;
+    const newFocusState = focusStatus.map(() => false);
+
+    if (nextIndex === code.length) return newFocusState;
+    if (nextCode.every(value => value !== '')) return newFocusState;
+    // const nextCode = [...code];
+    // nextCode[nextIndex] = 
+
+    // if(code.every(num => num !== '')) return newFocusState;
+    // console.log('is empty', isEmptyString)
+    // const nextCode = [...code];
+    // nextCode
 
     newFocusState[nextIndex] = true;
     return newFocusState;
@@ -103,7 +137,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     newFocusStatus[currentInputIndex - 1] = true;
     this.setState({
       focusStatus: newFocusStatus,
-    })
+    });
   }
   render() {
     return (
@@ -116,6 +150,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
               handleFocus={this.handleFocus}
               handleKeyDown={this.handleKeyDown}
               value={number}
+              placeholder={this.state.placeholders[index]}
               inputIndex={index}
               isFocused={this.state.focusStatus[index]}
               clearFocus={this.clearFocus}
