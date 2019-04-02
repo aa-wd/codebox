@@ -7,7 +7,7 @@
 .codebox {
     display: flex;
     justify-content: center;
-    margin: 1rem;
+    margin: 1.5rem;
 }
 
 .codebox__code {
@@ -17,8 +17,8 @@
     width: 100%;
 }
 
-input, .codebox__input:focus {
-    --outline-color: #4775f9;
+input, .codebox__input {
+    --outline-color: #313261;
 }
 
 .codebox__input {
@@ -32,16 +32,21 @@ input, .codebox__input:focus {
     text-align: center;
 
     border: 0.125rem solid #c7c2c2;
-    border-radius: 0.7rem;
+    border-radius: 0.2rem;
 }
 
-.codebox__input:focus {
+.codebox__input:focus, .codebox__input--valid {
     border-color: var(--outline-color);
 }
 
 input[type=tel]:focus {
     outline: 0;
     box-shadow: 0 0 0 0.125rem var(--outline-color);
+}
+
+.codebox__input--valid {
+    background-color: var(--outline-color);
+    color: white;
 }
 
 ::placeholder {

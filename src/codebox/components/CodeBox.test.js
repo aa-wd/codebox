@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import CodeBox from './CodeBox';
 import NumberInput from './NumberInput';
 
@@ -55,8 +55,43 @@ describe('<CodeBox />', () => {
     expect(instance.state.code).toEqual(snapshot);
   });
 
-  test('xx', () => {
-    const codebox = mount(<CodeBox inputs={6} />);
-    console.log(window.activeElement);
+  test('updates on 0 value', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('0', '1'));
+    expect(instance.state.code[1]).toEqual('0');
+  });
+
+  test('returns next focus status', () => {
+    const instance = createBasicInstance();
+    let nextFocusStatus = instance.getNextFocusStatus(0);
+    expect(nextFocusStatus).toEqual([false, true, false, false]);
+
+    nextFocusStatus = instance.getNextFocusStatus(3);
+    expect(nextFocusStatus).toEqual(Array(4).fill(false));
+  });
+
+  test('sets next focus state as state', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('5', '2'));
+    expect(instance.state.focusStatus[3]).toEqual(true);
+  });
+
+  test('on focus, it sets isFocused to last empty input', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('1', '0'));
+    instance.handleFocus({ currentTarget: { dataset: { inputindex: 3 } } });
+    expect(instance.state.focusStatus).toEqual([false, true, false, false]);
+  });
+
+  test('starts with first input focused', () => {
+    const instance = createBasicInstance();
+    expect(instance.state.focusStatus).toEqual([true, false, false, false]);
+  });
+
+  test('does not move to next input on backspace (new value is equal to empty string)', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('5', '0'));
+    instance.handleChange(getEventData('', '0'));
+    expect(instance.state.focusStatus[0]).toBe(true);
   });
 });
