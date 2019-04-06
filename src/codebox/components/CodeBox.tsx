@@ -3,6 +3,7 @@ import NumberInput from './NumberInput';
 
 interface CodeBoxProps {
   inputs: number;
+  cb: (code: number[]) => void;
 };
 
 interface CodeBoxState {
@@ -48,23 +49,25 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     const newPlaceholders = [...placeholders];
 
     newCode[inputIndexAsNumber] = valueAsString;
-    newPlaceholders[inputIndexAsNumber] = valueAsString === '' ?
-        code[inputIndexAsNumber] :
-        valueAsString;
+    newPlaceholders[inputIndexAsNumber] = valueAsString;
 
     const nextFocusStatus = this.getNextFocusStatus(inputIndexAsNumber, newCode);
 
-    const isDone = nextFocusStatus.every((status) => status === false);
+    const isDone = nextFocusStatus.every(status => status === false);
 
-    if (isDone && document.activeElement!== null) {
-      (document.activeElement as HTMLInputElement).blur();
+    if (isDone && document.activeElement instanceof HTMLInputElement) {
+      document.activeElement.blur();
     }
 
     this.setState({
       code: newCode,
       focusStatus: nextFocusStatus,
       placeholders: newPlaceholders,
-    }, () => { if(isDone) { console.log('DONE') } });
+    }, () => {
+      if(isDone) {
+        const codeAsNumbers = this.state.code.map(numAsString => parseInt(numAsString));
+        this.props.cb(codeAsNumbers);
+      }});
   }
   handleFocus(e: React.FocusEvent<HTMLInputElement>) {
     const inputIndex = parseInt(e.currentTarget.dataset.inputindex!);
@@ -74,22 +77,22 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     for (let i = inputIndex - 1; i > -1; i--) {
       if (this.state.code[i] === '') {
         lastEmptyInputIndex = i;
-      } else break; 
+      } else break;
     }
 
     if (lastEmptyInputIndex === inputIndex && this.state.code[inputIndex] === '') return;
 
     const newFocusStatus = [...this.state.focusStatus];
     // only change focused input when focusing empty input.
-    newFocusStatus[lastEmptyInputIndex] = this.state.code[inputIndex] !== '';
+    newFocusStatus[lastEmptyInputIndex] = true;
 
     // remove current value, which will display the current value as placeholder
-    const tempCode = [...this.state.code];
-    tempCode[inputIndex] = '';
+    const newCode = [...this.state.code];
+    newCode[inputIndex] = '';
 
     this.setState({
       focusStatus: newFocusStatus,
-      code: tempCode,
+      code: newCode,
     });
   }
   getNextFocusStatus(previousIndex: number, nextCode: string[]) {
@@ -107,13 +110,6 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
 
     if (nextIndex === code.length) return newFocusState;
     if (nextCode.every(value => value !== '')) return newFocusState;
-    // const nextCode = [...code];
-    // nextCode[nextIndex] = 
-
-    // if(code.every(num => num !== '')) return newFocusState;
-    // console.log('is empty', isEmptyString)
-    // const nextCode = [...code];
-    // nextCode
 
     newFocusState[nextIndex] = true;
     return newFocusState;

@@ -1,6 +1,6 @@
 {
   "name": "@aawd/example",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "author": "Ahmed Abbas",
   "description": "Template and tools for UI component library with typescript, react, storybook and jest.",
   "license": "MIT",

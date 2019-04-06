@@ -63,7 +63,7 @@ describe('<CodeBox />', () => {
 
   test('returns next focus status', () => {
     const instance = createBasicInstance();
-    let nextFocusStatus = instance.getNextFocusStatus(0);
+    let nextFocusStatus = instance.getNextFocusStatus(0, ['1', '', '', '']);
     expect(nextFocusStatus).toEqual([false, true, false, false]);
 
     nextFocusStatus = instance.getNextFocusStatus(3);
@@ -88,10 +88,16 @@ describe('<CodeBox />', () => {
     expect(instance.state.focusStatus).toEqual([true, false, false, false]);
   });
 
-  test('does not move to next input on backspace (new value is equal to empty string)', () => {
+  test('sets placeholder value with last received input value', () => {
     const instance = createBasicInstance();
     instance.handleChange(getEventData('5', '0'));
-    instance.handleChange(getEventData('', '0'));
-    expect(instance.state.focusStatus[0]).toBe(true);
+    expect(instance.state.placeholders['0']).toBe('5');
+  });
+
+  test('replaces an input with value with empty string if focused', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('6', '0'));
+    instance.handleFocus(getEventData('6', '0'));
+    expect(instance.state.code[0]).toBe('');
   });
 });
