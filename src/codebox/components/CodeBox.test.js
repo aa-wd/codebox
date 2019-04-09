@@ -54,4 +54,50 @@ describe('<CodeBox />', () => {
     instance.handleChange(getEventData('d', '2'));
     expect(instance.state.code).toEqual(snapshot);
   });
+
+  test('updates on 0 value', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('0', '1'));
+    expect(instance.state.code[1]).toEqual('0');
+  });
+
+  test('returns next focus status', () => {
+    const instance = createBasicInstance();
+    let nextFocusStatus = instance.getNextFocusStatus(0, ['1', '', '', '']);
+    expect(nextFocusStatus).toEqual([false, true, false, false]);
+
+    nextFocusStatus = instance.getNextFocusStatus(3);
+    expect(nextFocusStatus).toEqual(Array(4).fill(false));
+  });
+
+  test('sets next focus state as state', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('5', '2'));
+    expect(instance.state.focusStatus[3]).toEqual(true);
+  });
+
+  test('on focus, it sets isFocused to last empty input', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('1', '0'));
+    instance.handleFocus({ currentTarget: { dataset: { inputindex: 3 } } });
+    expect(instance.state.focusStatus).toEqual([false, true, false, false]);
+  });
+
+  test('starts with first input focused', () => {
+    const instance = createBasicInstance();
+    expect(instance.state.focusStatus).toEqual([true, false, false, false]);
+  });
+
+  test('sets placeholder value with last received input value', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('5', '0'));
+    expect(instance.state.placeholders['0']).toBe('5');
+  });
+
+  test('replaces an input with value with empty string if focused', () => {
+    const instance = createBasicInstance();
+    instance.handleChange(getEventData('6', '0'));
+    instance.handleFocus(getEventData('6', '0'));
+    expect(instance.state.code[0]).toBe('');
+  });
 });

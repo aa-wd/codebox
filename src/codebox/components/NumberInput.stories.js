@@ -10,4 +10,5 @@ const marginDecorator = storyFn => <div style={styles}>{storyFn()}</div>;
 
 storiesOf('NumberInput', module)
   .addDecorator(marginDecorator)
-  .add('empty number input', () => <NumberInput />);
+  .add('empty number input', () => <NumberInput value='' />)
+  .add('with value', () => <NumberInput value='3' />);

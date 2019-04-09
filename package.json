@@ -1,6 +1,6 @@
 {
   "name": "@aawd/example",
-  "version": "1.0.10",
+  "version": "1.0.13",
   "author": "Ahmed Abbas",
   "description": "Template and tools for UI component library with typescript, react, storybook and jest.",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "@storybook/addon-viewport": "^5.0.5",
     "@storybook/addons": "^5.0.5",
     "@storybook/react": "^5.0.5",
+    "@types/classnames": "^2.2.7",
     "@types/jest": "^24.0.11",
     "@types/react": "^16.8.10",
     "babel-loader": "^8.0.5",
