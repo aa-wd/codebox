@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { placeholder } from '@babel/types';
 
 interface NumberInputProps {
   value: string;

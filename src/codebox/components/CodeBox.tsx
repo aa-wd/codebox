@@ -19,13 +19,10 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
      * this.props.inputs never changes after it is set,
      * so it's safe to use props to set state here.
      */
-    const focusStatus = Array(this.props.inputs).fill(false);
-    focusStatus[0] = true;
-  
     this.state = {
       code: Array(this.props.inputs).fill(''),
       placeholders: Array(this.props.inputs).fill('0'),
-      focusStatus: focusStatus,
+      focusStatus: Array(this.props.inputs).fill(false),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
