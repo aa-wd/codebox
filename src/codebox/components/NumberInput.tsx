@@ -6,6 +6,7 @@ interface NumberInputProps {
   placeholder: string;
   inputIndex: number;
   isFocused: boolean;
+  isDisabled: boolean;
   clearFocus: () => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -32,7 +33,7 @@ class NumberInput extends React.Component<NumberInputProps> {
   }
   render() {
     const {
-      value, placeholder, inputIndex,
+      value, placeholder, inputIndex, isDisabled,
       handleChange, handleFocus, handleKeyDown
     } = this.props;
     return (
@@ -48,6 +49,7 @@ class NumberInput extends React.Component<NumberInputProps> {
         })}
         data-inputindex={inputIndex}
         ref={this.ref}
+        disabled={isDisabled}
       />
     );
   }

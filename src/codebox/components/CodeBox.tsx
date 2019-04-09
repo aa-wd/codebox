@@ -3,7 +3,9 @@ import NumberInput from './NumberInput';
 
 interface CodeBoxProps {
   inputs: number;
-  cb: (code: number[]) => void;
+  callback: (code: number[]) => void;
+  isReadOnly?: boolean;
+  startCode?: string[];
 };
 
 interface CodeBoxState {
@@ -20,7 +22,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
      * so it's safe to use props to set state here.
      */
     this.state = {
-      code: Array(this.props.inputs).fill(''),
+      code: (this.props.startCode) ? this.props.startCode || [] : Array(this.props.inputs).fill(''),
       placeholders: Array(this.props.inputs).fill('0'),
       focusStatus: Array(this.props.inputs).fill(false),
     };
@@ -63,7 +65,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     }, () => {
       if(isDone) {
         const codeAsNumbers = this.state.code.map(numAsString => parseInt(numAsString));
-        this.props.cb(codeAsNumbers);
+        this.props.callback(codeAsNumbers);
       }});
   }
   handleFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -147,6 +149,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
               inputIndex={index}
               isFocused={this.state.focusStatus[index]}
               clearFocus={this.clearFocus}
+              isDisabled={this.props.isReadOnly === true}
             />
           ))}
         </div>

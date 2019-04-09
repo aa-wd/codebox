@@ -83,11 +83,6 @@ describe('<CodeBox />', () => {
     expect(instance.state.focusStatus).toEqual([false, true, false, false]);
   });
 
-  test('starts with first input focused', () => {
-    const instance = createBasicInstance();
-    expect(instance.state.focusStatus).toEqual([true, false, false, false]);
-  });
-
   test('sets placeholder value with last received input value', () => {
     const instance = createBasicInstance();
     instance.handleChange(getEventData('5', '0'));

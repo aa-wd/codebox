@@ -35,6 +35,15 @@ input, .codebox__input {
     border-radius: 0.2rem;
 }
 
+.codebox__input:disabled {
+    color: red;
+    background-color: yellow;
+}
+
+.codebox__input:disabled::placeholder {
+    color: green;
+}
+
 .codebox__input:focus, .codebox__input--valid {
     border-color: var(--outline-color);
 }
