@@ -9,6 +9,9 @@
     display: flex;
     -webkit-justify-content: center;
             justify-content: center;
+    -webkit-flex-grow: 1;
+            flex-grow: 1; /* if inside flex container, fill width */
+    max-width: 350px;
     margin: 1.5rem;
 }
 
@@ -23,7 +26,7 @@
 }
 
 input, .codebox__input {
-    --outline-color: #313261;
+    --color-outline: #1ed760;
 }
 
 .codebox__input {
@@ -36,21 +39,33 @@ input, .codebox__input {
     font-size: 2.5rem;
     text-align: center;
 
-    border: 0.125rem solid #c7c2c2;
+    border: 0.125rem solid var(--color-main-black);
     border-radius: 0.2rem;
 }
 
+/*
+
+.codebox__input:disabled {
+    color: red;
+    background-color: yellow;
+}
+
+.codebox__input:disabled::placeholder {
+    color: green;
+}
+*/ 
+
 .codebox__input:focus, .codebox__input--valid {
-    border-color: var(--outline-color);
+    border-color: var(--color-outline);
 }
 
 input[type=tel]:focus {
     outline: 0;
-    box-shadow: 0 0 0 0.125rem var(--outline-color);
+    box-shadow: 0 0 0 0.125rem var(--color-outline);
 }
 
 .codebox__input--valid {
-    background-color: var(--outline-color);
+    background-color: var(--color-outline);
     color: white;
 }
 
