@@ -2,7 +2,7 @@ import React from 'react';
 import NumberInput from './NumberInput';
 
 interface CodeBoxProps {
-  inputs: number;
+  inputs: 4 | 5 | 6 | 8;
   callback: (code: number[]) => void;
   isReadOnly?: boolean;
   startCode?: string[];
@@ -134,10 +134,29 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
       focusStatus: newFocusStatus,
     });
   }
+  _getClassName() {
+    const { inputs } = this.props;
+    let suffix;
+    switch(inputs) {
+      case 6:
+        suffix = 'three';
+        break;
+      case 4:
+      case 8:
+        suffix = 'four';
+        break;
+      case 5:
+        suffix = 'five';
+        break;
+    }
+    return `codebox__code codebox__code--${suffix}`;
+  }
   render() {
+    const { inputs } = this.props;
+    const showSmallerInputs = inputs === 5;
     return (
       <div className="codebox">
-        <div className="codebox__code">
+        <div className={`codebox__code ${this._getClassName()}`}>
           {this.state.code.map((number, index) => (
             <NumberInput
               key={`codeInput-${index}`}
@@ -150,6 +169,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
               isFocused={this.state.focusStatus[index]}
               clearFocus={this.clearFocus}
               isDisabled={this.props.isReadOnly === true}
+              hasSmallerInput={showSmallerInputs}
             />
           ))}
         </div>

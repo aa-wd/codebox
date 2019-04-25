@@ -1,12 +1,12 @@
 {
   "name": "@aawd/codebox",
-  "version": "1.0.15",
+  "version": "1.0.0",
   "author": "Ahmed Abbas",
-  "description": "Template and tools for UI component library with typescript, react, storybook and jest.",
-  "license": "MIT",
+  "description": "UI component for inserting and validating short numeric codes",
+  "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aa-wd/ui-components-library-template.git"
+    "url": "https://github.com/aa-wd/codebox.git"
   },
   "main": "dist/index.js",
   "scripts": {
