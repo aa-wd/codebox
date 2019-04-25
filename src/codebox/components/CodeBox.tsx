@@ -2,8 +2,10 @@ import React from 'react';
 import NumberInput from './NumberInput';
 
 interface CodeBoxProps {
-  inputs: number;
-  cb: (code: number[]) => void;
+  inputs: 4 | 5 | 6 | 8;
+  callback: (code: number[]) => void;
+  isReadOnly?: boolean;
+  startCode?: string[];
 };
 
 interface CodeBoxState {
@@ -20,7 +22,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
      * so it's safe to use props to set state here.
      */
     this.state = {
-      code: Array(this.props.inputs).fill(''),
+      code: (this.props.startCode) ? this.props.startCode || [] : Array(this.props.inputs).fill(''),
       placeholders: Array(this.props.inputs).fill('0'),
       focusStatus: Array(this.props.inputs).fill(false),
     };
@@ -63,7 +65,7 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
     }, () => {
       if(isDone) {
         const codeAsNumbers = this.state.code.map(numAsString => parseInt(numAsString));
-        this.props.cb(codeAsNumbers);
+        this.props.callback(codeAsNumbers);
       }});
   }
   handleFocus(e: React.FocusEvent<HTMLInputElement>) {
@@ -132,10 +134,29 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
       focusStatus: newFocusStatus,
     });
   }
+  _getClassName() {
+    const { inputs } = this.props;
+    let suffix;
+    switch(inputs) {
+      case 6:
+        suffix = 'three';
+        break;
+      case 4:
+      case 8:
+        suffix = 'four';
+        break;
+      case 5:
+        suffix = 'five';
+        break;
+    }
+    return `codebox__code codebox__code--${suffix}`;
+  }
   render() {
+    const { inputs } = this.props;
+    const showSmallerInputs = inputs === 5;
     return (
       <div className="codebox">
-        <div className="codebox__code">
+        <div className={`codebox__code ${this._getClassName()}`}>
           {this.state.code.map((number, index) => (
             <NumberInput
               key={`codeInput-${index}`}
@@ -147,6 +168,8 @@ class CodeBox extends React.Component<CodeBoxProps, CodeBoxState> {
               inputIndex={index}
               isFocused={this.state.focusStatus[index]}
               clearFocus={this.clearFocus}
+              isDisabled={this.props.isReadOnly === true}
+              hasSmallerInput={showSmallerInputs}
             />
           ))}
         </div>

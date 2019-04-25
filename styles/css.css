@@ -1,15 +1,21 @@
 @font-face {
     font-family: 'Rubik Numbers';
-    src:    url('../resources/rubik-numbers.woff2') format('woff2'),
-            url('../resources/rubik-numbers.ttf') format('truetype');
+    src:    url('https://files.aawd.nl/codebox/rubik-numbers.woff2') format('woff2'),
+            url('https://files.aawd.nl/codebox/rubik-numbers.ttf') format('truetype');
 }
 
 .codebox {
+    --color-grey: #c7c2c2;
+    --size-input: 2.5rem;
+    --size-input-border: 0.125rem;
+    --size-input-padding: 0.5rem;
+    --input-width: calc(2 * var(--size-input-border) + 2 * var(--size-input-padding) + var(--size-input));
+
     display: -webkit-flex;
+
     display: flex;
     -webkit-justify-content: center;
             justify-content: center;
-    margin: 1.5rem;
 }
 
 .codebox__code {
@@ -17,40 +23,51 @@
     display: flex;
     -webkit-flex-wrap: wrap;
             flex-wrap: wrap;
-    -webkit-justify-content: space-between;
-            justify-content: space-between;
-    width: 100%;
+    -webkit-justify-content: space-around;
+            justify-content: space-around;
+}
+
+.codebox__code--three {
+    width: calc(4 * var(--input-width) - 0.01rem);
+}
+
+.codebox__code--four {
+    width: calc(5 * var(--input-width) - 0.01rem);
+}
+
+.codebox__code--five {
+    width: 18.5rem;
 }
 
 input, .codebox__input {
-    --outline-color: #313261;
+    --color-outline: #1ed760;
 }
 
 .codebox__input {
-    padding: 0.5rem;
     margin-bottom: 1rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    padding: var(--size-input-padding);
+    width: var(--size-input);
+    height: var(--size-input);
+    font-size: var(--size-input);
 
     font-family: 'Rubik Numbers', sans-serif;
-    font-size: 2.5rem;
     text-align: center;
 
-    border: 0.125rem solid #c7c2c2;
+    border: var(--size-input-border) solid var(--color-grey);
     border-radius: 0.2rem;
 }
 
 .codebox__input:focus, .codebox__input--valid {
-    border-color: var(--outline-color);
+    border-color: var(--color-outline);
 }
 
 input[type=tel]:focus {
     outline: 0;
-    box-shadow: 0 0 0 0.125rem var(--outline-color);
+    box-shadow: 0 0 0 0.125rem var(--color-outline);
 }
 
 .codebox__input--valid {
-    background-color: var(--outline-color);
+    background-color: var(--color-outline);
     color: white;
 }
 
@@ -69,5 +86,3 @@ input[type=tel]:focus {
 ::placeholder {
     color: #e2e2e2;
 }
-
-/* 4 and 8 items: 18rem. 6 items: < 15rem */

@@ -20,4 +20,9 @@ describe('<NumberInput />', () => {
     input.prop('onFocus')();
     expect(focusMock).toHaveBeenCalled();
   });
+
+  test('adds disabled attribute to input on isDisabled prop', () => {
+    const input = shallow(<NumberInput isDisabled={true} />);
+    expect(input.prop('disabled')).toBe(true);
+  });
 });

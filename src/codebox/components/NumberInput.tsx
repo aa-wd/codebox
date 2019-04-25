@@ -6,6 +6,8 @@ interface NumberInputProps {
   placeholder: string;
   inputIndex: number;
   isFocused: boolean;
+  isDisabled: boolean;
+  hasSmallerInput: boolean;
   clearFocus: () => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -32,9 +34,10 @@ class NumberInput extends React.Component<NumberInputProps> {
   }
   render() {
     const {
-      value, placeholder, inputIndex,
+      value, placeholder, inputIndex, isDisabled, hasSmallerInput,
       handleChange, handleFocus, handleKeyDown
     } = this.props;
+    const smallerSize = hasSmallerInput && '2rem';
     return (
       <input
         type="tel"
@@ -48,6 +51,12 @@ class NumberInput extends React.Component<NumberInputProps> {
         })}
         data-inputindex={inputIndex}
         ref={this.ref}
+        disabled={isDisabled}
+        style={{
+          fontSize: smallerSize || 'revert',
+          width: smallerSize || 'revert',
+          height: smallerSize || 'revert',
+        }}
       />
     );
   }
